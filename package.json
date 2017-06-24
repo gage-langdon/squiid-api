@@ -1,0 +1,26 @@
+{
+  "name": "squiid-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Flatzs/squiid-api.git"
+  },
+  "author": "@gageLangdon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Flatzs/squiid-api/issues"
+  },
+  "homepage": "https://github.com/Flatzs/squiid-api#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "crypto": "0.0.3",
+    "express": "^4.15.3",
+    "mongoose": "^4.10.8",
+    "qrcode": "^0.8.2"
+  }
+}
