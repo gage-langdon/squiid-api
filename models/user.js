@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 var userSchema = new Schema({
     username: String,
     password: String,
-    stripeID: String
+    stripeID: String,
+    dateCreated: Date
 });
 var User = mongoose.model('User', userSchema);
 

@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var contributionSchema = new Schema({
     amount: Number,
-    time: Date,
+    dateCreated: Date,
     invoice: { type: Schema.ObjectId, ref: 'Invoice' },
     user: { type: Schema.ObjectId, ref: 'User' }
 });

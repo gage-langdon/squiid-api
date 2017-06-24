@@ -35,7 +35,8 @@ module.exports = (app, express) => {
             let cryptoPassword = crypto.hash(req.body.password, constants.user.pwSalt);
             let data = {
                 username: req.body.username,
-                password: cryptoPassword
+                password: cryptoPassword,
+                dateCreated: new Date()
             }
             let newUser = await User.create(data);
             newUser.password = undefined;

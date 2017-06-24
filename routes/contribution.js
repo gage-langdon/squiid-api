@@ -17,7 +17,8 @@ module.exports = (app, express) => {
             let data = {
                 amount: req.body.amount,
                 invoice: foundInvoice._id,
-                user: user._id.toString()
+                user: user._id.toString(),
+                dateCreated: new Date()
             }
             let newContribution = await Contribution.create(data);
             res.send({ contribution: newContribution });

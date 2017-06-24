@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 var locationSchema = new Schema({
     name: String,
     username: String,
-    password: String
+    password: String,
+    dateCreated: Date
 });
 var Location = mongoose.model('Location', locationSchema);
 

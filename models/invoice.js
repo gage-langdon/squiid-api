@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 
 var invoiceSchema = new Schema({
     location: { type: Schema.ObjectId, ref: 'Location' },
-    total: Number
+    total: Number,
+    dateCreated: Date
 });
 var Invoice = mongoose.model('Invoice', invoiceSchema);
 

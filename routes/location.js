@@ -20,7 +20,8 @@ module.exports = (app, express) => {
                 foundLoc.password = undefined;
                 res.send({
                     token,
-                    location: foundLoc
+                    location: foundLoc,
+                    dateCreated: new Date()
                 });
             }
         } catch (e) {
