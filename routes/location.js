@@ -3,7 +3,7 @@ const constants = require('../config/constants');
 const crypto = require('../utilities/crypto');
 const routes = require('../config/routes');
 
-module.exports = (app, express, middleware) => {
+module.exports = (app, express) => {
     const router = express.Router();
 
     router.post('/signin', async (req, res) => {

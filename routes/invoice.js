@@ -2,23 +2,24 @@ const routes = require('../config/routes');
 const Invoice = require('../models/invoice');
 const Contribution = require('../models/contribution');
 const qrcode = require('../utilities/qrcode');
+const middleware = require('../utilities/middleware');
 
-module.exports = (app, express, middleware) => {
+module.exports = (app, express) => {
     const router = express.Router();
 
     router.post('/', async (req, res) => {
         try {
+            let location = await middleware.location(req);
             if (!req.body.total) throw ("Invalid invoice data supplied");
             let data = {
                 total: req.body.total,
-                // location: req.location._id
+                location: location._id.toString()
             }
             let newInvoice = await Invoice.create(data);
             let QR = await qrcode.create(newInvoice._id.toString());
             res.send({ invoice: newInvoice, qrcode: QR });
         } catch (e) {
-            console.log(e);
-            res.status(400).send();
+            res.status(400).send({ error: e.toString() });
         }
     });
     router.get('/:id', async (req, res) => {
@@ -29,8 +30,7 @@ module.exports = (app, express, middleware) => {
             let QR = await qrcode.create(foundInvoice._id.toString());
             res.send({ invoice: foundInvoice, qrcode: QR, contributions: foundContributions });
         } catch (e) {
-            console.log(e);
-            res.status(400).send();
+            res.status(400).send({ error: e.toString() });
         }
     });
 
