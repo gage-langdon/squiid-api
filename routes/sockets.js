@@ -22,20 +22,22 @@ module.exports = (server) => {
                 socket.join(invoiceID);
                 socket.emit('connected');
             } catch (e) {
-                socket.emit('error', e.toString());
+                console.error(e);
+                socket.emit('err', e.toString());
             }
         });
         socket.on('contribute', async (amount) => {
-            try{
+            try {
                 let data = await Contribution.add(invoice._id, amount, user._id);
                 data.user = user;
                 data.user.password = undefined;
                 console.log('contribution!!!', data);
                 socket.broadcast.emit('contribution', data);
-            }catch(e) {
-                socket.emit('error', e.toString());
+            } catch (e) {
+                console.error(e);
+                socket.emit('err', e.toString());
             }
-            
+
         });
         socket.on('disconnect', () => {
             console.log('disconnect')
