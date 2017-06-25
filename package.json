@@ -21,6 +21,7 @@
     "crypto": "0.0.3",
     "express": "^4.15.3",
     "mongoose": "^4.10.8",
-    "qrcode": "^0.8.2"
+    "qrcode": "^0.8.2",
+    "request-promise": "^4.2.1"
   }
 }

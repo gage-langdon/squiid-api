@@ -2,6 +2,7 @@ const User = require('../models/user');
 const constants = require('../config/constants');
 const crypto = require('../utilities/crypto');
 const routes = require('../config/routes');
+const request = require('request-promise');
 
 module.exports = (app, express) => {
     const router = express.Router();
@@ -32,11 +33,15 @@ module.exports = (app, express) => {
             if (!req.body.username || !req.body.password) throw ("Invalid user data suppplied");
             let userNameCheck = await User.findOne({ username: req.body.username });
             if (userNameCheck) throw ("Username already taken");
+
+            let thumbnail = (await request('https://randomuser.me/api/?inc=picture'));
+            thumbnail = JSON.parse(thumbnail).results[0].picture.thumbnail;
             let cryptoPassword = crypto.hash(req.body.password, constants.user.pwSalt);
             let data = {
                 username: req.body.username,
                 password: cryptoPassword,
-                dateCreated: new Date()
+                dateCreated: new Date(),
+                thumbnail
             }
             let newUser = await User.create(data);
             newUser.password = undefined;

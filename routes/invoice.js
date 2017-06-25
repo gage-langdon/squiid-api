@@ -39,6 +39,7 @@ module.exports = (app, express) => {
             let foundContributions = await Contribution.find({ invoice: req.params.id }).populate('user');
             foundContributions = foundContributions.map(item => ({
                 username: item.user.username,
+                thumbnail: item.user.thumbnail,
                 amount: item.amount,
                 dateCreated: item.dateCreated
             }));
