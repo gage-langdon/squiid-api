@@ -17,7 +17,7 @@ module.exports = (server) => {
                 if (!invoiceData) throw ("invalid invoice id");
                 user = userData;
                 invoice = invoiceData;
-                let contributions = Contribution.get(invoiceID);
+                let contributions = await Contribution.get(invoiceID);
 
                 socket.join(invoiceID);
                 socket.emit('connected', {invoice, contributions});
