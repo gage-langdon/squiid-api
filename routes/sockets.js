@@ -5,7 +5,7 @@ module.exports = (server) => {
 
     io.on('connection', (socket) => {
         socket.on('join', (invoiceID) => {
-            console.log('join', invoiceID);
+            console.log('join', socket);
             socket.join(invoiceID);
         });
         socket.on('contribute', (amount) => {
