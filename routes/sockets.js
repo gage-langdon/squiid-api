@@ -19,12 +19,10 @@ module.exports = (server) => {
                 user = userData;
                 invoice = invoiceData;
 
-                console.log('data', user, invoice);
                 socket.join(invoiceID);
                 socket.emit('connected');
             } catch (e) {
-                console.error(e);
-                socket.disconnect();
+                socket.emit('error', e.toString());
             }
         });
         socket.on('contribute', async (amount) => {
@@ -35,8 +33,7 @@ module.exports = (server) => {
                 console.log('contribution!!!', data);
                 socket.broadcast.emit('contribution', data);
             }catch(e) {
-                console.error(e);
-                socket.disconnect();
+                socket.emit('error', e.toString());
             }
             
         });
