@@ -47,7 +47,7 @@ module.exports = (socketIO) => {
             }
         });
         socket.on('disconnect', () => {
-            console.log('disconnect')
+            console.log('disconnect', user.username)
         });
     });
 }

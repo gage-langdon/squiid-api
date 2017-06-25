@@ -21,11 +21,7 @@ module.exports = (app, express, socketIO) => {
                 dateCreated: new Date()
             }
             let newContribution = await Contribution.create(data);
-            let contributions = await Contribution.find({ invoice: req.body.invoiceID }).populate('user');
-            contributions = contributions.map(item => {
-                item.user.password = undefined;
-                return item;
-            });
+            let contributions = await util.get(req.body.invoiceID);
             await socketIO.to(req.body.invoiceID).emit('contribution',{ contributions });
             res.send({ contributions });
         } catch (e) {
