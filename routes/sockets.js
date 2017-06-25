@@ -20,7 +20,7 @@ module.exports = (server) => {
                 let contributions = await Contribution.get(invoiceID);
 
                 socket.join(invoiceID);
-                socket.emit('connected', {invoice, contributions});
+                socket.emit('connected', { invoice, contributions });
             } catch (e) {
                 console.error(e);
                 socket.emit('err', e.toString());
@@ -31,8 +31,8 @@ module.exports = (server) => {
                 let data = await Contribution.add(invoice._id, amount, user._id);
                 data.user = user;
                 data.user.password = undefined;
-                console.log('contribution!!!', data);
-                socket.broadcast.emit('contribution', data);
+                let contributions = await Contribution.get(invoice._id);
+                socket.broadcast.emit('contribution', { contributions });
             } catch (e) {
                 console.error(e);
                 socket.emit('err', e.toString());
