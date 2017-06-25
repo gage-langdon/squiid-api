@@ -38,11 +38,15 @@ module.exports = (server) => {
                 data.user.password = undefined;
                 let contributions = await Contribution.get(invoice._id);
                 io.in(invoice._id).emit('contribution', { contributions });
+
+                let totalContributed = 0;
+                contributions.forEach(x => totalContributed += x.amount);
+                if (totalContributed >= invoice.total)
+                    io.in(invoice._id).emit('complete');
             } catch (e) {
                 console.error(e);
                 socket.emit('err', e.toString());
             }
-
         });
         socket.on('disconnect', () => {
             console.log('disconnect')
