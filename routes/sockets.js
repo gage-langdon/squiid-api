@@ -32,7 +32,7 @@ module.exports = (server) => {
                 data.user = user;
                 data.user.password = undefined;
                 let contributions = await Contribution.get(invoice._id);
-                socket.in(invoice._id).emit('contribution', { contributions });
+                io.in(invoice._id).emit('contribution', { contributions });
             } catch (e) {
                 console.error(e);
                 socket.emit('err', e.toString());
