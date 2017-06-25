@@ -1,4 +1,4 @@
-const io = require('socket.io-client')('ws://ec2-13-59-237-146.us-east-2.compute.amazonaws.com');
+const io = require('socket.io-client')('http://localhost:8080') //('ws://ec2-13-59-237-146.us-east-2.compute.amazonaws.com');
 
 
 
