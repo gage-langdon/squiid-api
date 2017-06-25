@@ -36,7 +36,8 @@ const add = async (invoiceID, amount, userID) => {
 }
 const get = async (invoiceID) => {
     try {
-        let foundContributions = await Contribution.find({ invoice: id }).populate('user');
+        if (!invoiceID) throw ('undefined invoice id');
+        let foundContributions = await Contribution.find({ invoice: invoiceID }).populate('user');
         return foundContributions.map(item => ({
             username: item.user.username,
             thumbnail: item.user.thumbnail,
