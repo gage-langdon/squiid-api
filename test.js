@@ -13,6 +13,9 @@ const init = async () => {
     io.on('contribution', (data) => {
         console.log('on contribution made', data);
     });
+    io.on('complete', () => {
+        console.log('complete!!');
+    })
     io.on('err', (message) => {
         console.log('error', message);
     })

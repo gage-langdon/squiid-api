@@ -41,6 +41,7 @@ module.exports = (server) => {
 
                 let totalContributed = 0;
                 contributions.forEach(x => totalContributed += x.amount);
+                console.log('-------', totalContributed, invoice.total)
                 if (totalContributed >= invoice.total)
                     io.in(invoice._id).emit('complete');
             } catch (e) {
