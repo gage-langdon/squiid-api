@@ -4,12 +4,12 @@ const Invoice = require('../models/invoice');
 const middleware = require('../utilities/middleware');
 const util = require('../utilities/contribution');
 
-module.exports = (app, express) => {
+module.exports = (app, express, socketIO) => {
     const router = express.Router();
 
     router.post('/', async (req, res) => {
         try {
-            let user = await middleware.user(req);
+            let user = await middleware.user(req.headers['authorization']);
             if (!req.body.amount || !req.body.invoiceID) throw ("Invalid contribution data supplied");
             let foundInvoice = await Invoice.findById(req.body.invoiceID);
             if (!foundInvoice) throw ("Invalid invoice id");
@@ -21,8 +21,15 @@ module.exports = (app, express) => {
                 dateCreated: new Date()
             }
             let newContribution = await Contribution.create(data);
-            res.send({ contribution: newContribution });
+            let contributions = await Contribution.find({ invoice: req.body.invoiceID }).populate('user');
+            contributions = contributions.map(item => {
+                item.user.password = undefined;
+                return item;
+            });
+            await socketIO.to(req.body.invoiceID).emit('contribution',{ contributions });
+            res.send({ contributions });
         } catch (e) {
+            console.log(e)
             res.status(400).send({ error: e.toString() });
         }
     });

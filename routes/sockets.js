@@ -3,15 +3,12 @@ const Invoice = require('../models/invoice');
 const Contribution = require('../utilities/contribution');
 const Location = require('../models/location');
 
-module.exports = (server) => {
-    let io = require('socket.io')(server);
-
-    io.on('connection', (socket) => {
+module.exports = (socketIO) => {
+    socketIO.on('connection', (socket) => {
         let user = {};
         let invoice = {};
         socket.on('join', async ({ userToken, invoiceID }) => {
             try {
-                console.log('join', userToken, invoiceID);
                 let userData = await middleware.user(userToken);
                 if (!user) throw ("invalid user token");
                 let invoiceData = await Invoice.findById(invoiceID);
@@ -33,17 +30,17 @@ module.exports = (server) => {
         });
         socket.on('contribute', async (amount) => {
             try {
+                //TODO: check for too large of contribution that would overbalance
                 let data = await Contribution.add(invoice._id, amount, user._id);
                 data.user = user;
                 data.user.password = undefined;
                 let contributions = await Contribution.get(invoice._id);
-                io.in(invoice._id).emit('contribution', { contributions });
+                socketIO.in(invoice._id).emit('contribution', { contributions });
 
                 let totalContributed = 0;
                 contributions.forEach(x => totalContributed += x.amount);
-                console.log('-------', totalContributed, invoice.total)
                 if (totalContributed >= invoice.total)
-                    io.in(invoice._id).emit('complete');
+                    socketIO.in(invoice._id).emit('complete');
             } catch (e) {
                 console.error(e);
                 socket.emit('err', e.toString());

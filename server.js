@@ -3,6 +3,7 @@ const app = express();
 const server = require('http').createServer(app);
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const socketIO = require('socket.io')(server);
 
 const config = require('./config/config-dev');
 
@@ -14,10 +15,10 @@ app.use(bodyParser.json({ limit: '50mb' }));
 const PORT = process.env.PORT || 8080;
 
 //routes
-require('./routes/sockets')(server)
+require('./routes/sockets')(socketIO)
 require('./routes/user')(app, express);
 require('./routes/invoice')(app, express);
 require('./routes/location')(app, express);
-require('./routes/contribution')(app, express);
+require('./routes/contribution')(app, express, socketIO);
 
 server.listen(PORT);
