@@ -15,12 +15,12 @@ module.exports = (server) => {
                 if (!user) throw ("invalid user token");
                 let invoiceData = await Invoice.findById(invoiceID);
                 if (!invoiceData) throw ("invalid invoice id");
-
                 user = userData;
                 invoice = invoiceData;
+                let contributions = Contribution.get(invoiceID);
 
                 socket.join(invoiceID);
-                socket.emit('connected');
+                socket.emit('connected', {invoice, contributions});
             } catch (e) {
                 socket.emit('error', e.toString());
             }

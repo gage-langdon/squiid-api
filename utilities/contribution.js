@@ -34,4 +34,17 @@ const add = async (invoiceID, amount, userID) => {
         throw (e);
     }
 }
-module.exports = { isFullfilled, add }
+const get = async (invoiceID) => {
+    try {
+        let foundContributions = await Contribution.find({ invoice: id }).populate('user');
+        return foundContributions.map(item => ({
+            username: item.user.username,
+            thumbnail: item.user.thumbnail,
+            amount: item.amount,
+            dateCreated: item.dateCreated
+        }));
+    } catch (e) {
+        throw (e);
+    }
+}
+module.exports = { isFullfilled, add, get }
