@@ -1,5 +1,6 @@
 const Contribution = require('../models/contribution');
 const Invoice = require('../models/invoice');
+const middleware = require('../utilities/middleware');
 
 const isFullfilled = async (invoiceID) => {
     try {
@@ -15,5 +16,22 @@ const isFullfilled = async (invoiceID) => {
         throw (e);
     }
 };
-
-module.exports = { isFullfilled }
+const add = async (invoiceID, amount, userID) => {
+    try {
+        let foundInvoice = await Invoice.findById(invoiceID);
+        if (!foundInvoice) throw ("Invalid invoice id");
+        if (await isFullfilled(invoiceID)) throw ("Invoice already fulfulled");
+        let data = {
+            amount: amount,
+            invoice: foundInvoice._id,
+            user: userID,
+            dateCreated: new Date()
+        }
+        let newContribution = await Contribution.create(data);
+        newContribution = newContribution.populate('user')
+        return newContribution;
+    } catch (e) {
+        throw (e);
+    }
+}
+module.exports = { isFullfilled, add }

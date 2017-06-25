@@ -18,11 +18,9 @@ module.exports = {
             throw (error);
         }
     },
-    user: async (req) => {
+    user: async (token) => {
         try {
-            let token = req.headers['authorization'];
             if (!token) throw ("Lacking authorization");
-
             let decryptedToken = crypto.decrypt(token);
             let userID = decryptedToken.replace(constants.user.idSalt, '');
             let user = await User.findById(userID);
