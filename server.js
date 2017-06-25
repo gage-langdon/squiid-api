@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const server = require('http').createServer(app);
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
@@ -13,11 +14,10 @@ app.use(bodyParser.json({ limit: '50mb' }));
 const PORT = process.env.PORT || 8080;
 
 //routes
+require('./routes/sockets')(server)
 require('./routes/user')(app, express);
 require('./routes/invoice')(app, express);
 require('./routes/location')(app, express);
 require('./routes/contribution')(app, express);
 
-app.listen(PORT, () => {
-    console.log('server listening on port ', PORT);
-});
+server.listen(PORT);
