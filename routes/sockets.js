@@ -20,6 +20,8 @@ module.exports = (server) => {
                 invoice = invoiceData;
                 let contributions = await Contribution.get(invoiceID);
                 let location = await Location.findById(invoice.location);
+                location.password = undefined;
+                location.username = undefined;
                 socket.join(invoiceID);
                 socket.emit('connected', { location, invoice, contributions });
             } catch (e) {
