@@ -1,6 +1,7 @@
 const middleware = require('../utilities/middleware');
 const Invoice = require('../models/invoice');
 const Contribution = require('../utilities/contribution');
+const Loction = require('../models/location');
 
 module.exports = (server) => {
     let io = require('socket.io')(server);
@@ -18,9 +19,9 @@ module.exports = (server) => {
                 user = userData;
                 invoice = invoiceData;
                 let contributions = await Contribution.get(invoiceID);
-
+                let location = await Location.getById(invoice.location);
                 socket.join(invoiceID);
-                socket.emit('connected', { invoice, contributions });
+                socket.emit('connected', { location, invoice, contributions });
             } catch (e) {
                 console.error(e);
                 socket.emit('err', e.toString());
