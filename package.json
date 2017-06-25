@@ -22,6 +22,8 @@
     "express": "^4.15.3",
     "mongoose": "^4.10.8",
     "qrcode": "^0.8.2",
-    "request-promise": "^4.2.1"
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "socket.io": "^2.0.3"
   }
 }
