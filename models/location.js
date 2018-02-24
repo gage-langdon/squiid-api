@@ -1,21 +1,12 @@
 const mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var locationSchema = new Schema({
-    name: String,
-    username: String,
-    password: String,
-    dateCreated: Date
+const locationSchema = new Schema({
+	name: String,
+	username: String,
+	password: String,
+	dateCreated: Date
 });
-var Location = mongoose.model('Location', locationSchema);
-
-Location.save = () => {
-    return new Promise((resolve, reject) => {
-        Location.save(err => {
-            if (err) reject(err);
-            else resolve();
-        });
-    });
-}
+const Location = mongoose.model('Location', locationSchema);
 
 module.exports = Location;

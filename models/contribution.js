@@ -1,21 +1,12 @@
 const mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var contributionSchema = new Schema({
-    amount: Number,
-    dateCreated: Date,
-    invoice: { type: Schema.ObjectId, ref: 'Invoice' },
-    user: { type: Schema.ObjectId, ref: 'User' }
+const contributionSchema = new Schema({
+	amount: Number,
+	dateCreated: Date,
+	invoice: { type: Schema.ObjectId, ref: 'Invoice' },
+	user: { type: Schema.ObjectId, ref: 'User' }
 });
-var Contribution = mongoose.model('Contribution', contributionSchema);
-
-Contribution.save = () => {
-    return new Promise((resolve, reject) => {
-        Contribution.save(err => {
-            if (err) reject(err);
-            else resolve();
-        });
-    });
-}
+const Contribution = mongoose.model('Contribution', contributionSchema);
 
 module.exports = Contribution;
